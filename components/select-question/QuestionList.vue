@@ -13,7 +13,7 @@
       :key="question.id"
     >
       <div
-        @click="startChatWithQuestion(question.id)"
+        @click="startChatWithQuestion(question)"
         class="text-white text-left px-4 py-2 sm:mx-20 lg:mx-64 leading-snug cursor-pointer hover:text-whhgreen hover:bg-white"
       >
         {{ question.text }}
@@ -41,11 +41,18 @@ export default {
     }
   },
   methods: {
-    startChatWithQuestion (id) {
-      if (id === 'rand') {
-        id = Math.floor(Math.random() * this.questions.length + 1)
+    startChatWithQuestion (question) {
+      if (question === 'rand') {
+        question = {}
+        question.id = Math.floor(Math.random() * this.questions.length + 1)
+        this.questions.forEach(q => {
+          if (q.id === question.id) {
+            question.text = q.text
+          }
+        })
       }
-      this.$store.commit('chat/set', { prop: 'selectedQuestion', value: id })
+      this.$store.commit('chat/set', { prop: 'selectedQuestion', value: question })
+      this.$router.push('question-response')
     }
   }
 }

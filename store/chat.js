@@ -9,10 +9,10 @@ export const mutations = {
         })
     },
     set (state, updateObj) {
-        if (!state.chat.updateObj) {
-            state.chat.updateObj.prop = {}
+        if (!state.chat[updateObj.prop]) {
+            state.chat[updateObj.prop] = {}
         }
-        state.chat.updateObj.prop = updateObj.value
+        state[updateObj.prop] = updateObj.value
     },
     remove (state, { todo }) {
         state.chat.splice(state.list.indexOf(todo), 1)
