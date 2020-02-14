@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="m-6">
-        <button
-          @click="startChatWithQuestion('rand')"
-          class="text-white text-lg border rounded border-white p-2 w-2/3 hover:bg-white hover:text-whhgreen"
-        >
-          Zufallsfrage
-        </button>
+      <button
+        @click="startChatWithQuestion('rand')"
+        class="text-white text-lg border rounded border-white p-2 sm:w-1/3 lg:1/5 w-2/3 hover:bg-white hover:text-whhgreen"
+      >
+        Zufallsfrage
+      </button>
     </div>
     <div
       v-for="question in questions"
@@ -14,11 +14,11 @@
     >
       <div
         @click="startChatWithQuestion(question.id)"
-        class="text-white text-left px-4 py-2 leading-snug cursor-pointer hover:text-whhgreen hover:bg-white"
+        class="text-white text-left px-4 py-2 sm:mx-20 lg:mx-64 leading-snug cursor-pointer hover:text-whhgreen hover:bg-white"
       >
         {{ question.text }}
       </div>
-      <hr v-if="question.id != questions.length" class="border-white mx-2">
+      <hr v-if="question.id != questions.length" class="border-white mx-2 sm:mx-20 lg:mx-64">
     </div>
   </div>
 </template>
