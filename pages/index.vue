@@ -1,5 +1,5 @@
 <template>
-  <div class="container w-full min-h-screen h-full">
+  <div class="containerbg w-full min-h-screen h-full">
 
     <div class="text-5xl m-4 mt-0 pt-20 font-sans text-white">
       Penguin Chat
@@ -14,7 +14,7 @@
 
     <nuxt-link
       to="/select-question"
-      class="border rounded p-3 mt-12 text-xl text-white hover:text-black hover:bg-white"
+      class="border rounded p-3 mt-12 text-xl text-white hover:text-whhgreen hover:bg-white"
     >
       Los geht's
     </nuxt-link>
@@ -26,12 +26,7 @@ export default {}
 </script>
 
 <style>
-/* Sample `apply` at-rules with Tailwind CSS
-.container {
-  @apply min-h-screen flex justify-center items-center text-center mx-auto;
-}
-*/
-.container {
+.containerbg {
   margin: 0 auto;
   text-align: center;
   background-color: #339933;

@@ -1,12 +1,24 @@
 <template>
-  <div class="questions-list">
-    <div class="random-question" style="margin-bottom: 2rem;">
-      <button @click="startChatWithQuestion('rand')">
+  <div>
+    <div class="m-6">
+      <button
+        @click="startChatWithQuestion('rand')"
+        class="text-white text-lg border rounded border-white p-2 w-2/3 hover:bg-white hover:text-whhgreen"
+      >
         Zufallsfrage
       </button>
     </div>
-    <div v-for="question in questions" :key="question.id" class="question" @click="startChatWithQuestion(question.id)">
-      {{ question.text }}
+    <div
+      v-for="question in questions"
+      :key="question.id"
+    >
+      <div
+        @click="startChatWithQuestion(question.id)"
+        class="text-white text-left px-4 py-2 leading-snug cursor-pointer hover:text-whhgreen hover:bg-white"
+      >
+        {{ question.text }}
+      </div>
+      <hr v-if="question.id != questions.length" class="border-white mx-2">
     </div>
   </div>
 </template>
@@ -19,11 +31,11 @@ export default {
   computed: {
     questions () {
       return [
-        { text: 'Frage 1', id: 1 },
-        { text: 'Frage 2', id: 2 },
-        { text: 'Frage 3', id: 3 },
-        { text: 'Frage 4', id: 4 },
-        { text: 'Frage 5', id: 5 }]
+        { text: 'Wenn du ein Buch schreiben müsstest, wovon würde es handeln?', id: 1 },
+        { text: 'Bist du ein Konkurrenzdenker?', id: 2 },
+        { text: 'Welchen nahen Verwandten magst du am wenigsten? Warum?', id: 3 },
+        { text: 'Bist du mit deinen bisherigen Errungenschaften im Leben zufrieden?', id: 4 },
+        { text: 'Was macht dich neidisch?', id: 5 }]
     }
   },
   methods: {
