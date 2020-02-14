@@ -5,11 +5,13 @@
       Troca
     </div>
 
-    <img class="w-2/5 m-4 text-center inline" src="logo.png"/>
+    <img class="w-2/5 m-4 sm:w-1/3 lg:w-1/6 text-center inline" src="logo.png"/>
 
-    <div class="text-left text-white mx-8 my-12">
-      Mit Troca kannst du dich mit Menschen aus dem globalen Süden vernetzen.
-      Beantworte eine Frage deiner Wahl und erhalte eine Antwort zur selben Frage von einem zufälligen Chatpartner.
+    <div class="flex justify-center">
+      <div class="text-left sm:2/3 lg:w-1/3 text-white mx-8 my-12">
+        Mit Troca kannst du dich mit Menschen aus dem globalen Süden vernetzen.
+        Beantworte eine Frage deiner Wahl und erhalte eine Antwort zur selben Frage von einem zufälligen Chatpartner.
+      </div>
     </div>
 
     <nuxt-link
