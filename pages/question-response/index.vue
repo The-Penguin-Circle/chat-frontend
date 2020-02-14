@@ -23,12 +23,12 @@
     </div>
 
     <div class="text-right sm:px-20 lg:px-64 px-2 mt-4">
-      <nuxt-link
-          to="/chat"
+      <button
           class="text-white text-lg border rounded border-white p-2 w-20 hover:bg-white hover:text-whhgreen"
+          @click="answerQuestion"
         >
           Senden
-      </nuxt-link>
+      </button>
     </div>
   </div>
 </template>
@@ -45,6 +45,15 @@ export default {
     this.selectedQuestion = this.$store.state.chat.selectedQuestion
   },
   methods: {
+    answerQuestion () {
+      this.setInitialQuestionAnswer()
+      this.$router.push('/chat')
+    },
+    setInitialQuestionAnswer () {
+      const question = this.selectedQuestion
+      question.answer = this.questionResponse
+      this.$store.commit('chat/set', { prop: 'selectedQuestion', value: question })
+    }
   }
 }
 </script>
