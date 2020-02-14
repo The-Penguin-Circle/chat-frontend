@@ -1,12 +1,12 @@
 <template>
   <div>
     <div class="m-6">
-      <button
-        @click="startChatWithQuestion('rand')"
-        class="text-white text-lg border rounded border-white p-2 w-2/3 hover:bg-white hover:text-whhgreen"
-      >
-        Zufallsfrage
-      </button>
+        <button
+          @click="startChatWithQuestion('rand')"
+          class="text-white text-lg border rounded border-white p-2 w-2/3 hover:bg-white hover:text-whhgreen"
+        >
+          Zufallsfrage
+        </button>
     </div>
     <div
       v-for="question in questions"
@@ -26,7 +26,9 @@
 <script>
 export default {
   data: () => {
-    return {}
+    return {
+      cyka: 1
+    }
   },
   computed: {
     questions () {
@@ -43,6 +45,7 @@ export default {
       if (id === 'rand') {
         id = Math.floor(Math.random() * this.questions.length + 1)
       }
+      this.$store.commit('chat/set', { prop: 'selectedQuestion', value: id })
     }
   }
 }

@@ -1,0 +1,23 @@
+export const state = () => ({
+    chat: {}
+})
+export const mutations = {
+    add (state, text) {
+        state.chat.push({
+            text,
+            done: false
+        })
+    },
+    set (state, updateObj) {
+        if (!state.chat.updateObj) {
+            state.chat.updateObj.prop = {}
+        }
+        state.chat.updateObj.prop = updateObj.value
+    },
+    remove (state, { todo }) {
+        state.chat.splice(state.list.indexOf(todo), 1)
+    },
+    toggle (state, todo) {
+        todo.done = !todo.done
+    }
+}
