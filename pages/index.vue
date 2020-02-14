@@ -23,7 +23,6 @@
         >
           GitHub
         </a>
-        <nuxt-link to="/select-question">Home page</nuxt-link>
       </div>
     </div>
   </div>
