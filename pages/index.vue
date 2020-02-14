@@ -2,13 +2,13 @@
   <div class="containerbg w-full min-h-screen h-full">
 
     <div class="text-5xl m-4 mt-0 pt-20 font-sans text-white">
-      Penguin Chat
+      Troca
     </div>
 
     <img class="w-2/5 m-4 text-center inline" src="logo.png"/>
 
     <div class="text-left text-white mx-8 my-12">
-      Mit Penguin Chat kannst du dich mit Menschen aus dem globalen Süden vernetzen.
+      Mit Troca kannst du dich mit Menschen aus dem globalen Süden vernetzen.
       Beantworte eine Frage deiner Wahl und erhalte eine Antwort zur selben Frage von einem zufälligen Chatpartner.
     </div>
 
