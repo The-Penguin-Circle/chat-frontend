@@ -45,7 +45,7 @@ export default {
       if (id === 'rand') {
         id = Math.floor(Math.random() * this.questions.length + 1)
       }
-      this.$store.commit('chat/set', { prop: 'selectedQuestion', value: id })
+      //this.$store.commit('chat/set', { prop: 'selectedQuestion', value: id })
     }
   }
 }
