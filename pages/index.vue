@@ -2,7 +2,7 @@
   <div class="container w-full min-h-screen h-full">
 
     <div class="text-5xl m-4 mt-0 pt-20 font-sans text-white">
-      Pinguin Chat
+      Penguin Chat
     </div>
 
     <img class="w-2/5 m-4 text-center inline" src="logo.png"/>
