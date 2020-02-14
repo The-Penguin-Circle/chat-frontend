@@ -1,36 +1,28 @@
 <template>
   <div class="container w-full min-h-screen h-full">
-    <div>
-      <Logo/>
-      <div class="text-5xl m-4 font-sans text-white">
-        Pinguin Chat
-      </div>
 
-      <img class="w-2/5 m-4 text-center inline" src="logo.png"/>
-
-      <div class="text-left text-white m-8 mb-12 mt-12">
-        Mit Penguin Chat kannst du dich mit Menschen aus dem globalen Süden vernetzen.
-        Beantworte eine Frage deiner Wahl und erhalte eine Antwort zur selben Frage von einem zufälligen Chatpartner.
-      </div>
-
-      <nuxt-link
-        to="/select-question"
-        class="border rounded p-3 mt-12 text-xl text-white hover:text-black hover:bg-white"
-      >
-        Los geht's
-      </nuxt-link>
+    <div class="text-5xl m-4 mt-0 pt-20 font-sans text-white">
+      Pinguin Chat
     </div>
+
+    <img class="w-2/5 m-4 text-center inline" src="logo.png"/>
+
+    <div class="text-left text-white mx-8 my-12">
+      Mit Penguin Chat kannst du dich mit Menschen aus dem globalen Süden vernetzen.
+      Beantworte eine Frage deiner Wahl und erhalte eine Antwort zur selben Frage von einem zufälligen Chatpartner.
+    </div>
+
+    <nuxt-link
+      to="/select-question"
+      class="border rounded p-3 mt-12 text-xl text-white hover:text-black hover:bg-white"
+    >
+      Los geht's
+    </nuxt-link>
   </div>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
-
-export default {
-  components: {
-    Logo
-  }
-}
+export default {}
 </script>
 
 <style>
