@@ -29,5 +29,10 @@ export default {
 </script>
 
 <style>
-
+.containerbg {
+  margin: 0 auto;
+  text-align: center;
+  background-color: #339933;
+  background-image: linear-gradient(20deg, #2EA672 0%, #82A62E 100%);
+}
 </style>
