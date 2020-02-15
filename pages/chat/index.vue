@@ -22,7 +22,7 @@
           v-if="message.isFirstResponse || message.isFirstUserResponse"
         >
           <img
-            class="w-12 bg-white rounded-full m-2 sm:row-span-2 row-start-1"
+            class="w-12 bg-white rounded-full m-2 sm:row-span-2 row-start-1 cursor-pointer"
             :class="{'col-start-2': message.isFirstUserResponse}"
             @click="navToProfile(message.isClientMsg)"
             :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
@@ -47,7 +47,7 @@
           <div class="sm:mx-20 lg:mx-64 flex m-2 self-end " :class="{ 'justify-end': message.isClientMsg }" v-if="!message.isFirstResponse && !message.isFirstUserResponse" >
             <div class="align-left" v-if="!message.isClientMsg">
               <img
-                class="w-12 bg-white rounded-full m-2"
+                class="w-12 bg-white rounded-full m-2 cursor-pointer"
                 @click="navToProfile(message.isClientMsg)"
                 :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
               />
@@ -57,7 +57,7 @@
             </div>
             <div class="align-left" v-if="message.isClientMsg">
               <img
-                class="w-12 bg-white rounded-full m-2"
+                class="w-12 bg-white rounded-full m-2 cursor-pointer"
                 @click="navToProfile(message.isClientMsg)"
                 :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
               />
@@ -80,11 +80,11 @@
 
     <!-- <profile /> -->
     <div v-if="showProfile">
-      <h2 class="title">Dein Profil</h2>
-      <img :src="currentUser.picString" />
-      <h3 class="subtitle">{{ currentUser.name }}</h3>
-      <button @click="getNewProfile">Neues Profil generieren</button>
-      <button @click="navToChat">Fertig</button>
+      <h2 class="text-white text-4xl pt-20 mb-6">Profil</h2>
+      <img :src="currentUser.picString" class="rounded-full bg-white w-2/3 inline"/>
+      <h3 class="text-xl text-white mx-4 my-6">{{ currentUser.name }}</h3>
+      <button @click="getNewProfile" class="border border-white rounded no-underline p-3 mt-12 text-xl bg-whhpurple text-white hover:text-whhpurple hover:bg-white">Neu generieren</button>
+      <button @click="navToChat" class="border border-white rounded no-underline p-3 mt-12 text-xl text-white hover:text-whhpurple hover:bg-white">Fertig</button>
     </div>
   </div>
 </template>
