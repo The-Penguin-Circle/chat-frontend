@@ -41,19 +41,23 @@ export default {
     this.setupSocketConnection()
     this.pushInitialAnswerToChat()
     this.socket.onmessage = (event) => {
-      const data = JSON.parse(event.data)
-      switch (data.data.type) {
-        case 'chat-found':
-          _this.handleChatFound(_this, data)
-          break
-        case 'match-me':
-          _this.handleMatchMe(_this, data)
-          break
-        case 'chat-message':
-          _this.handleChatMessage(_this, data)
-          break
-        default:
-          console.log('Unknown message type')
+      try {
+        const data = JSON.parse(event.data)
+        switch (data.type) {
+          case 'chat-found':
+            _this.handleChatFound(_this, data)
+            break
+          case 'match-me':
+            _this.handleMatchMe(_this, data)
+            break
+          case 'chat-message':
+            _this.handleChatMessage(_this, data)
+            break
+          default:
+            console.log('Unknown message type')
+        }
+      } catch (error) {
+        console.log(error)
       }
     }
   },
@@ -69,6 +73,7 @@ export default {
     handleMatchMe (_this, data) {
       _this.currentUser.name = data.data.username
       _this.currentUser.picString = 'data:image/jpeg;base64,' + data.data.image
+      _this.identifier = data.data.identifier
       _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
     },
     handleChatMessage (_this, data) {
