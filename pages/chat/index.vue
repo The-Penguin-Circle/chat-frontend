@@ -68,6 +68,10 @@ export default {
   },
   mounted () {
     const _this = this
+    if(this.$store.state.chat.hasOwnProperty("selectedQuestion") && !(this.$store.state.chat.selectedQuestion != "") ){
+      return this.$router.push("/")
+    }
+
     this.selectedQuestion = this.$store.state.chat.selectedQuestion
     this.setupSocketConnection()
     //this.pushInitialAnswerToChat()
