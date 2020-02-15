@@ -1,6 +1,6 @@
 export const state = () => ({
     chat: {},
-    messages: {}
+    messages: []
 })
 export const mutations = {
     add (state, text) {

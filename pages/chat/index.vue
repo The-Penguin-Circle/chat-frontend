@@ -4,20 +4,19 @@
       <div><nuxt-link to="/chats">Alle Chats</nuxt-link></div>
       <div><nuxt-link to="/login">Login</nuxt-link></div>
       <div> {{ selectedQuestion.text }} </div>
-        <ul>
+        <!-- <ul>
           <li v-for="item in chatMessages">
-            <!-- <div>{{ item.isClientMsg ? currentUser.picString : remotePartner.picString }}</div>
-            <div>{{ item.isClientMsg ? currentUser.name : remotePartner.name }}</div> -->
+
             <div><img :src="remotePartner.picString"></div>
             <div>{{ remotePartner.name }}</div>
             <div>{{ item.message }}</div>
           </li>
-        </ul>
+        </ul> -->
         <h1>CHAT MESSAGES</h1>
         <ul v-if="storedChatMessages.length > 0">
           <li v-for="message in storedChatMessages">
-            <div><img :src="remotePartner.picString"></div>
-            <div>{{ remotePartner.name }}</div>
+            <div><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
+            <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
             <div>{{ message.message }}</div>
           </li>
         </ul>
@@ -85,8 +84,10 @@ export default {
       // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
       _this.remotePartner.picString = `data:image/jpeg;base64,${data.data.otherUser.image}`
       _this.remotePartner.name = data.data.otherUser.username
+      _this.pushMessageToChat({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
       _this.$store.commit('chat/set', { prop: 'remotePartner', value: _this.remotePartner })
-
+      //_this.$store.commit('chat/addChatMessage', { message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
+      //console.log(_this.$store.state.chat.messages + "messages");
       _this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
     },
     handleMatchMe (_this, data) {
@@ -99,8 +100,9 @@ export default {
       _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
     },
     handleChatMessage (_this, data) {
-      debugger
-      _this.chatMessages.push({ message: data.data.message, isFirstResponse: false })
+      //debugger
+      _this.pushMessageToChat({ message: data.data.message, isFirstResponse: false })
+    //  _this.chatMessages.push({ message: data.data.message, isFirstResponse: false })
     },
     handleGetUserName (_this, data) {
       _this.currentUser.name = data.data.username
@@ -116,7 +118,7 @@ export default {
             //
         } else {
           // new User
-          _this.socket.send(JSON.stringify({ type: 'match-me', questionID: this.selectedQuestion.id, answer: this.selectedQuestion.answer }))
+          _this.socket.send(JSON.stringify({ type: 'match-me', questionID: _this.selectedQuestion.id, answer: _this.selectedQuestion.answer }))
           _this.pushInitialAnswerToChat()
 
 
@@ -126,15 +128,21 @@ export default {
     },
     pushInitialAnswerToChat () {
       // push client/current User answer to the chat list
-      this.chatMessages.push({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
+      //this.chatMessages.push({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
+      this.pushMessageToChat({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
+      //this.$store.commit('chat/set', { prop: 'chatMessages', value: this.chatMessages })
 
-      this.$store.commit('chat/set', { prop: 'chatMessages', value: _this.chatMessages })
-
+    },
+    pushMessageToChat (msg) {
+      this.$store.commit('chat/addChatMessage', msg )
     },
     send () {
 
       const message = { type: 'chat-message', identifier: this.identifier, message: this.userInputTextarea }
-      this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
+      //
+      this.pushMessageToChat({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
+    //  this.$store.commit('chat/addChatMessage', { message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
+    //  this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
       this.socket.send(JSON.stringify(message))
       this.userInputTextarea = ''
     }
