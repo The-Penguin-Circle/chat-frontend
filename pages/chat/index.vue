@@ -84,11 +84,13 @@ export default {
       // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
       _this.remotePartner.picString = `data:image/jpeg;base64,${data.data.otherUser.image}`
       _this.remotePartner.name = data.data.otherUser.username
-      _this.pushMessageToChat({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
+      //_this.pushMessageToChat({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
+      //{message: data.data.otherResponse, isFirstResponse: true }
+      _this.pushMessageToChat({message: data.data.otherResponse, isFirstResponse: true })
       _this.$store.commit('chat/set', { prop: 'remotePartner', value: _this.remotePartner })
       //_this.$store.commit('chat/addChatMessage', { message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
       //console.log(_this.$store.state.chat.messages + "messages");
-      _this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
+      //_this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
     },
     handleMatchMe (_this, data) {
       // save own profile created by the server
