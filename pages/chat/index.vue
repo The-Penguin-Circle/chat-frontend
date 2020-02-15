@@ -1,36 +1,64 @@
 <template>
-  <div class="container">
-    <div>
-      <div><nuxt-link to="/chats">Alle Chats</nuxt-link></div>
-      <div><nuxt-link to="/login">Login</nuxt-link></div>
-      <div> {{ selectedQuestion.text }} </div>
-        <!-- <ul>
-          <li v-for="item in chatMessages">
-
-            <div><img :src="remotePartner.picString"></div>
-            <div>{{ remotePartner.name }}</div>
-            <div>{{ item.message }}</div>
-          </li>
-        </ul> -->
-        <h1>CHAT MESSAGES</h1>
-        <ul v-if="storedChatMessages.length > 0">
-          <li v-for="message in storedChatMessages">
-            <div><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
-            <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
-            <div>{{ message.message }}</div>
-          </li>
-        </ul>
-        <textarea v-if="waitingForMatch"
-                  v-model="userInputTextarea"
-                  @keyup.enter="send"></textarea>
-        <div v-if="!waitingForMatch">Wartetext</div>
-        <button @click="send">Senden</button>
+  <div class="containerbg w-full min-h-screen h-full">
+    <div class="pt-4 pr-2 text-right">
+      <div class="border border-whhgrey inline rounded p-2 text-whhgrey">
+        Login
       </div>
+    </div>
+
+    <div class="text-left flex sm:ml-20 lg:ml-64 mx-6 mt-6 mb-4">
+      <div class="border-4 flex-left flex-shrink-0 border-white bg-whhpurple font-bold p-2 text-2xl text-white text-center inline-block w-12 h-12 leading-6 rounded-full">
+        ?</div>
+      <div class="text-xl text-white ml-2 mt-3 leading-tight">
+        {{ selectedQuestion.text }}
+      </div>
+    </div>
+
+    <hr class="border-white mx-4 sm:mx-20 lg:mx-64" />
+
+    <ul v-if="storedChatMessages.length > 0">
+      <li v-for="message in storedChatMessages" class="float-right">
+        <div v-if="message.isFirstResponse || message.isFirstUserResponse">
+          <img
+            class="w-12 bg-white rounded-full m-2"
+            :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+          >
+          <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
+          <div>{{ message.message }}</div>
+        </div>
+      </li>
+    </ul>
+
+    <ul v-if="storedChatMessages.length > 0">
+      <li v-for="message in storedChatMessages" class="float-right">
+        <div v-if="!message.isFirstResponse && !message.isFirstUserResponse">
+          <img
+            class="w-12 bg-white rounded-full m-2"
+            :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+          >
+          <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
+          <div>{{ message.message }}</div>
+        </div>
+      </li>
+    </ul>
+
+    <div v-if="!waitingForMatch">Wartetext</div>
+
+    <div class="w-full fixed bottom-0 right-0 p-2">
+      <textarea 
+        v-model="userInputTextarea"
+        @keyup.enter="send"
+        style="resize: none"
+        class="h-auto p-4 rounded w-full bg-white text-whhgreen"
+      ></textarea>
     </div>
   </div>
 </template>
 
 <script>
+
+//v-if="waitingForMatch"
+//<button v-if="waitingForMatch" @click="send">Senden</button>
 
 export default {
   data: () => {
@@ -152,4 +180,10 @@ export default {
 }
 </script>
 <style>
+.containerbg {
+  margin: 0 auto;
+  text-align: center;
+  background-color: #339933;
+  background-image: linear-gradient(20deg, #2EA672 0%, #82A62E 100%);
+}
 </style>
