@@ -17,7 +17,7 @@
                   v-model="userInputTextarea"
                   @keyup.enter="send"></textarea>
         <div v-if="!waitingForMatch">Wartetext</div>
-        <button @click="send">Senden</button>
+        <button v-if="waitingForMatch" @click="send">Senden</button>
       </div>
 
       <!-- <profile /> -->
