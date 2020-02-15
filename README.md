@@ -1,6 +1,6 @@
 # The Troca Chat Frontend
 
-[![Build status](https://img.shields.io/github/workflow/status/The-Penguin-Circle/chat-frontend/CI/master)](https://github.com/The-Penguin-Circle/chat-frontend/actions)
+[![Build status](https://img.shields.io/github/workflow/status/The-Penguin-Circle/chat-frontend/CI/master)](https://github.com/The-Penguin-Circle/chat-frontend/actions) [![License](https://img.shields.io/github/license/The-Penguin-Circle/chat-frontend)](https://github.com/The-Penguin-Circle/chat-frontend/blob/master/LICENSE)
 
 > barrier-free chat application
 
