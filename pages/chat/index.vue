@@ -44,15 +44,25 @@
       <hr class="border-white mx-4 my-4 sm:mx-20 lg:mx-64" />
 
       <ul v-if="storedChatMessages.length > 0">
-        <li v-for="message in storedChatMessages" class="float-right">
-          <div v-if="!message.isFirstResponse && !message.isFirstUserResponse">
-            <img
-              class="w-12 bg-white rounded-full m-2"
-              @click="navToProfile(message.isClientMsg)"
-              :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
-            />
-            <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
-            <div>{{ message.message }}</div>
+        <li v-for="message in storedChatMessages" class="">
+          <div class="sm:mx-20 lg:mx-64 flex m-2 self-end " :class="{ 'justify-end': message.isClientMsg }" v-if="!message.isFirstResponse && !message.isFirstUserResponse" >
+            <div class="align-left" v-if="!message.isClientMsg">
+              <img
+                class="w-12 bg-white rounded-full m-2"
+                @click="navToProfile(message.isClientMsg)"
+                :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+              />
+            </div>
+            <div class="p-2 bg-white rounded-lg m-2 self-start flex">
+              <div class="w-full text-whhgreen">{{ message.message }}</div>
+            </div>
+            <div class="align-left" v-if="message.isClientMsg">
+              <img
+                class="w-12 bg-white rounded-full m-2"
+                @click="navToProfile(message.isClientMsg)"
+                :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+              />
+            </div>
           </div>
         </li>
       </ul>
