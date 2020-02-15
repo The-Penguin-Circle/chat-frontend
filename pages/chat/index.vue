@@ -48,7 +48,7 @@
 
       <div v-if="!waitingForMatch">Wartetext</div>
 
-      <div class="w-full fixed bottom-0 right-0 p-2">
+      <div class="w-full fixed bottom-0 right-0 p-2 sm:px-20 lg:px-64">
         <textarea 
           v-model="userInputTextarea"
           @keyup.enter="send"
