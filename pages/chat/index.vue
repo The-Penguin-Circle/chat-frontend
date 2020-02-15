@@ -14,28 +14,25 @@
 
       <hr class="border-white mx-4 my-4 sm:mx-20 lg:mx-64" />
 
-      <div v-if="storedChatMessages.length > 0" class="border flex flex-row-reverse sm:mx-20 lg:mx-64 mx-4">
-        <div v-for="message in storedChatMessages" class="border grid grid-cols-2 grid-rows-2 grid-flow-row sm:grid-flow-col grid-gap-4 flex-grow">
+      <div v-if="storedChatMessages.length > 0" class="flex flex-row-reverse sm:mx-20 lg:mx-64 mx-4">
+        <div
+          v-for="message in storedChatMessages"
+          class="grid grid-rows-2 grid-flow-row grid-gap-4 flex-grow flex-1"
+          :class="{'ml-4 col-r': message.isFirstUserResponse, 'col-l': message.isFirstResponse}"
+          v-if="message.isFirstResponse || message.isFirstUserResponse"
+        >
           <img
-            class="w-12 bg-white rounded-full m-2 sm:row-span-2"
+            class="w-12 bg-white rounded-full m-2 sm:row-span-2 row-start-1"
+            :class="{'col-start-2': message.isFirstUserResponse}"
             @click="navToProfile(message.isClientMsg)"
             :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
           />
-          <div class="text-white text-sm">
+          <div class="text-white text border align-bottom sm:pt-0" :class="{'text-right': message.isFirstUserResponse, 'text-left': message.isFirstResponse}">
             {{ message.isClientMsg ? currentUser.name : remotePartner.name }}
           </div>
-          <div class="text-white border col-span-2 sm:col-span-1">
+          <div class="text-white border col-span-2 sm:col-span-1 p-2 text-left bg-white rounded text-whhgreen">
             {{ message.message }}
           </div>
-          <!--
-          <img
-            v-if="message.isFirstResponse"
-            v-if="message.isFirstUserResponse"
-            class="w-12 bg-white rounded-full m-2 sm:row-span-2"
-            @click="navToProfile(message.isClientMsg)"
-            :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
-          />
-          -->
         </div>
       </div>
 
@@ -267,6 +264,15 @@ export default {
 };
 </script>
 <style>
+.border-left {
+  border-left: 1px white;
+}
+.col-r {
+  grid-template-columns: 1fr 4rem;
+}
+.col-l {
+  grid-template-columns: 4rem 1fr;
+}
 .containerbg {
   margin: 0 auto;
   text-align: center;
