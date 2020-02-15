@@ -30,7 +30,7 @@ export default {
           text: "Wenn du ein Buch schreiben müsstest, wovon würde es handeln?",
           id: 1
         },
-        { text: "Was ist dein größter Wunsch", id: 2 },
+        { text: "Was ist dein größter Wunsch?", id: 2 },
         {
           text:
             "Bist du mit deinen bisherigen Errungenschaften im Leben zufrieden?",
