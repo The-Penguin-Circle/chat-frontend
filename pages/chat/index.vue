@@ -73,7 +73,7 @@
       </div>
 
       <div class="w-full fixed bottom-0 right-0 p-2 sm:px-20 lg:px-64">
-        <textarea
+        <textarea required
           v-model="userInputTextarea"
           v-if="waitingForMatch"
           @keyup.enter="send"
@@ -260,21 +260,26 @@ export default {
       this.$store.commit("chat/addChatMessage", msg);
     },
     send() {
-      const message = {
-        type: "chat-message",
-        identifier: this.identifier,
-        message: this.userInputTextarea
-      };
-      //
-      this.pushMessageToChat({
-        message: this.userInputTextarea,
-        isFirstResponse: false,
-        isClientMsg: true
-      });
-      //  this.$store.commit('chat/addChatMessage', { message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
-      //  this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
-      this.socket.send(JSON.stringify(message));
-      this.userInputTextarea = "";
+      if (this.userInputTextarea != "" && this.userInputTextarea != "\n") {
+        const message = {
+          type: "chat-message",
+          identifier: this.identifier,
+          message: this.userInputTextarea
+        };
+        //
+        this.pushMessageToChat({
+          message: this.userInputTextarea,
+          isFirstResponse: false,
+          isClientMsg: true
+        });
+        //  this.$store.commit('chat/addChatMessage', { message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true } )
+        //  this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
+        this.socket.send(JSON.stringify(message));
+        this.userInputTextarea = "";
+      } else {
+        // nikes
+      }
+
     }
   }
 };
