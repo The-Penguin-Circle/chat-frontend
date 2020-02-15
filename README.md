@@ -4,6 +4,10 @@
 
 > barrier-free chat application
 
+This is the backend for the Troca chat app, created on the 2020 Q1
+Hackathon of the Welthungerhilfe. It communicates
+with the frontend over websockets.
+
 ## Build Setup
 
 ``` bash
@@ -23,9 +27,7 @@ $ npm run generate
 
 For detailed explanation on how things work, check out [Nuxt.js docs](https://nuxtjs.org).
 
-This is the backend for the Troca chat app, created on the 2020 Q1
-Hackathon of the Welthungerhilfe. It communicates
-with the frontend over websockets.
+## License
 
     The Troca Chat Backend
     Copyright (C) 2020  github.com/ a1core, pidoubleju, skyfrk, wanLo, glatteis
