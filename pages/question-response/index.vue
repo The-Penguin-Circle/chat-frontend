@@ -18,7 +18,9 @@
     </div>
 
     <div class="sm:mx-20 lg:mx-64 mx-2 mt-4">
-      <textarea v-model="questionResponse" class="h-64 p-4 w-full">
+      <textarea v-model="questionResponse"
+                class="h-64 p-4 w-full"
+                @keyup.enter="answerQuestion">
       </textarea>
     </div>
 
