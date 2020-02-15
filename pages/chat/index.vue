@@ -1,21 +1,14 @@
 <template>
   <div class="container">
-    <div>
+    <div v-if="!showProfile" >
       <div><nuxt-link to="/chats">Alle Chats</nuxt-link></div>
       <div><nuxt-link to="/login">Login</nuxt-link></div>
       <div> {{ selectedQuestion.text }} </div>
-        <!-- <ul>
-          <li v-for="item in chatMessages">
-
-            <div><img :src="remotePartner.picString"></div>
-            <div>{{ remotePartner.name }}</div>
-            <div>{{ item.message }}</div>
-          </li>
-        </ul> -->
         <h1>CHAT MESSAGES</h1>
         <ul v-if="storedChatMessages.length > 0">
           <li v-for="message in storedChatMessages">
-            <div><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
+
+            <div @click="navToProfile"><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
             <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
             <div>{{ message.message }}</div>
           </li>
@@ -26,12 +19,32 @@
         <div v-if="!waitingForMatch">Wartetext</div>
         <button @click="send">Senden</button>
       </div>
+
+      <!-- <profile /> -->
+
+      <div v-if="showProfile">
+
+        <h2 class="title">Dein Profil</h2>
+        <img :src="currentUser.picString">
+        <h3 class="subtitle">
+          {{ currentUser.name }}
+        </h3>
+        <button @click="getNewProfile">Neues Profil generieren</button>
+        <button @click="navToChat">Fertig</button>
+      </div>
+
+
     </div>
+
+
+
+
+
   </div>
 </template>
 
 <script>
-
+// import profile from '~/components/profile/settings'
 export default {
   data: () => {
     return {
@@ -41,9 +54,13 @@ export default {
       userInputTextarea: '',
       chatMessages: [{ message: '', isFirstResponse: false }],
       identifier: 'zbxgxDbAHu',
-      selectedQuestion: ''
+      selectedQuestion: '',
+      showProfile: false
     }
   },
+  // components: {
+  //   profile
+  // },
   computed: {
     storedChatMessages () {
       return this.$store.state.chat.messages
@@ -79,6 +96,15 @@ export default {
     }
   },
   methods: {
+    navToProfile () {
+      this.showProfile = true
+    },
+    navToChat () {
+      this.showProfile = false
+    },
+    getNewProfile () {
+      this.socket.send(JSON.stringify({type:"get-username",generateNew:true, identifier:this.$store.state.chat.identifier}))
+    },
     handleChatFound (_this, data) {
       _this.waitingForMatch = true
       // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}

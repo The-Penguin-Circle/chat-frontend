@@ -1,6 +1,7 @@
 <template>
   <div class="container">
     <div>
+      <div> <nuxt-link to="/chat">Zurück</nuxt-link></div>
       <div> <nuxt-link to="/login">Login</nuxt-link></div>
       <img :src="picString">
       <h2 class="title">
@@ -29,7 +30,7 @@ export default {
     getNewProfile () {
       //var getUsername = ;
       //const = _this.$store.state.chat.identifier != "" ? "_this.$store.state.chat.identifier"
-      this.socket.send(JSON.stringify({type:"get-username",generateNew:true, identifier:_this.$store.state.chat.identifier})) // "pUSbnITRHe"
+      this.socket.send(JSON.stringify({type:"get-username",generateNew:true, identifier:this.$store.state.chat.identifier})) // "pUSbnITRHe"
     }
   },
   mounted() {
@@ -37,13 +38,15 @@ export default {
     var _this = this
     this.socket = new WebSocket('wss://chat.linus.space/websocket');
     this.socket.onopen = function(e) {
+      //alert(_this.$store.state.chat.identifier)
       _this.socket.send(JSON.stringify({type:"get-username", generateNew:false, identifier:_this.$store.state.chat.identifier})) // _this.$store.state.chat.identifier
     }
 
     this.socket.onmessage = function(event) {
-        var data = JSON.parse(event.data)
 
-        if (data.data.type == "get-username") {
+        var data = JSON.parse(event.data)
+        //alert(event.data)
+        if (data.type == "get-username") {
           _this.name = data.data.username
           _this.picString = "data:image/jpeg;base64," + data.data.image
         }
