@@ -16,10 +16,10 @@
 
       <div class="absolute w-full overflow-scroll pt-4" style="max-height: calc(100vh - 12rem)">
 
-        <div v-if="storedChatMessages.length > 0" class="flex flex-row-reverse sm:mx-20 lg:mx-64 mx-4">
+        <div v-if="storedChatMessages.length > 0" class="flex items-start flex-row-reverse sm:mx-20 lg:mx-64 mx-4">
           <div
             v-for="message in storedChatMessages"
-            class="grid grid-rows-2 grid-flow-row grid-gap-4 flex-grow flex-1"
+            class="grid grid-flow-row grid-gap-4 flex-grow flex-1"
             :class="{'ml-4 col-r': message.isFirstUserResponse, 'col-l': message.isFirstResponse}"
             v-if="message.isFirstResponse || message.isFirstUserResponse"
           >
@@ -29,10 +29,10 @@
               @click="navToProfile(message.isClientMsg)"
               :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
             />
-            <div class="text-white text border sm:pt-0" :class="{'text-right': message.isFirstUserResponse, 'text-left': message.isFirstResponse}">
+            <div class="text-white text sm:pt-0" :class="{'text-right': message.isFirstUserResponse, 'text-left': message.isFirstResponse}">
               {{ message.isClientMsg ? currentUser.name : remotePartner.name }}
             </div>
-            <div class="text-white border col-span-2 sm:col-span-1 p-2 text-left bg-white rounded text-whhgreen">
+            <div class="text-white col-span-2 sm:col-span-1 p-2 text-left bg-white rounded text-whhgreen">
               {{ message.message }}
             </div>
           </div>
@@ -45,21 +45,23 @@
         <hr class="border-white mx-4 my-4 sm:mx-20 lg:mx-64" />
 
         <ul v-if="storedChatMessages.length > 0">
-          <li v-for="message in storedChatMessages" class="">
-            <div class="sm:mx-20 lg:mx-64 flex m-2 self-end " :class="{ 'justify-end': message.isClientMsg }" v-if="!message.isFirstResponse && !message.isFirstUserResponse" >
+          <li v-for="message in storedChatMessages" class="my-4 mx-4">
+            <div class="sm:mx-20 lg:mx-64 flex self-end " :class="{ 'justify-end': message.isClientMsg }" v-if="!message.isFirstResponse && !message.isFirstUserResponse" >
               <div class="align-left" v-if="!message.isClientMsg">
                 <img
-                  class="w-12 bg-white rounded-full m-2 cursor-pointer"
+                  class="w-12 bg-white rounded-full mr-4 cursor-pointer"
+                  style="min-width: 3rem"
                   @click="navToProfile(message.isClientMsg)"
                   :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
                 />
               </div>
-              <div class="p-2 bg-white rounded m-2 self-start flex">
-                <div class="w-full text-whhgreen">{{ message.message }}</div>
+              <div class="p-2 bg-white rounded self-start flex">
+                <div class="w-full text-left text-whhgreen">{{ message.message }}</div>
               </div>
               <div class="align-left" v-if="message.isClientMsg">
                 <img
-                  class="w-12 bg-white rounded-full m-2 cursor-pointer"
+                  class="w-12 bg-white rounded-full ml-4 cursor-pointer"
+                  style="min-width: 3rem"
                   @click="navToProfile(message.isClientMsg)"
                   :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
                 />
