@@ -18,15 +18,15 @@
     </div>
 
     <div class="sm:mx-20 lg:mx-64 mx-2 mt-4">
-      <textarea v-model="questionResponse"
+      <textarea  v-model="questionResponse"
                 class="h-64 p-4 w-full rounded bg-white text-whhgreen"
                 @keyup.enter="answerQuestion"
-                style="resize: none">
+                style="resize: none" >
       </textarea>
     </div>
 
     <div class="text-right sm:px-20 lg:px-64 px-2 mt-4">
-      <button
+      <button :disabled="formInvalid"
           class="text-white text-lg border rounded border-white bg-whhpurple p-2 w-20 hover:bg-white hover:text-whhpurple"
           @click="answerQuestion"
         >
@@ -41,7 +41,8 @@ export default {
   data: () => {
     return {
       questionResponse: '',
-      selectedQuestion: ''
+      selectedQuestion: '',
+      formInvalid: false
     }
   },
   mounted () {
@@ -49,8 +50,15 @@ export default {
   },
   methods: {
     answerQuestion () {
-      this.setInitialQuestionAnswer()
-      this.$router.push('/chat')
+      if (this.questionResponse == "" || this.questionResponse == "\n" ) {
+        //this.formInvalid = true
+        return
+      } else {
+          this.setInitialQuestionAnswer()
+          this.$router.push('/chat')
+      }
+
+
     },
     setInitialQuestionAnswer () {
       const question = this.selectedQuestion
