@@ -6,6 +6,8 @@
       <div> {{ selectedQuestion.text }} </div>
         <ul>
           <li v-for="item in chatMessages">
+            <!-- <div>{{ item.isClientMsg ? currentUser.picString : remotePartner.picString }}</div>
+            <div>{{ item.isClientMsg ? currentUser.name : remotePartner.name }}</div> -->
             <div><img :src="remotePartner.picString"></div>
             <div>{{ remotePartner.name }}</div>
             <div>{{ item.message }}</div>
@@ -52,7 +54,7 @@ export default {
     const _this = this
     this.selectedQuestion = this.$store.state.chat.selectedQuestion
     this.setupSocketConnection()
-    this.pushInitialAnswerToChat()
+    //this.pushInitialAnswerToChat()
     this.socket.onmessage = (event) => {
       try {
         const data = JSON.parse(event.data)
@@ -62,6 +64,9 @@ export default {
             break
           case 'match-me':
             _this.handleMatchMe(_this, data)
+            break
+          case 'get-username':
+            _this.handleGetUserName(_this, data)
             break
           case 'chat-message':
             _this.handleChatMessage(_this, data)
@@ -80,33 +85,56 @@ export default {
       // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
       _this.remotePartner.picString = `data:image/jpeg;base64,${data.data.otherUser.image}`
       _this.remotePartner.name = data.data.otherUser.username
+      _this.$store.commit('chat/set', { prop: 'remotePartner', value: _this.remotePartner })
 
       _this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
     },
     handleMatchMe (_this, data) {
+      // save own profile created by the server
       _this.currentUser.name = data.data.username
       _this.currentUser.picString = 'data:image/jpeg;base64,' + data.data.image
       _this.identifier = data.data.identifier
+      console.log(data.data.identifier);
+      // parse id to the Store, for use in the profile screen and to check if the current page has to create a new entity if the identifier is empty
       _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
     },
     handleChatMessage (_this, data) {
       debugger
       _this.chatMessages.push({ message: data.data.message, isFirstResponse: false })
     },
+    handleGetUserName (_this, data) {
+      _this.currentUser.name = data.data.username
+      _this.currentUser.picString = "data:image/jpeg;base64," + data.data.image
+    },
     setupSocketConnection () {
       const _this = this
-      const matchMe = { type: 'match-me', questionID: this.selectedQuestion.id, answer: this.selectedQuestion.answer }
+    // _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
       this.socket = new WebSocket('wss://chat.linus.space/websocket')
       this.socket.onopen = function () {
-        _this.socket.send(JSON.stringify(matchMe))
+        if (_this.$store.state.chat.hasOwnProperty("identifier") && _this.$store.state.chat.identifier != "") { //identifier =! ""
+            _this.socket.send(JSON.stringify({type:"get-username", generateNew:false, identifier:_this.$store.state.chat.identifier}))
+            //
+        } else {
+          // new User
+          _this.socket.send(JSON.stringify({ type: 'match-me', questionID: this.selectedQuestion.id, answer: this.selectedQuestion.answer }))
+          _this.pushInitialAnswerToChat()
+
+
+        }
+
       }
     },
     pushInitialAnswerToChat () {
+      // push client/current User answer to the chat list
       this.chatMessages.push({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
+
+      this.$store.commit('chat/set', { prop: 'chatMessages', value: _this.chatMessages })
+
     },
     send () {
+
       const message = { type: 'chat-message', identifier: this.identifier, message: this.userInputTextarea }
-      this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false })
+      this.chatMessages.push({ message: this.userInputTextarea, isFirstResponse: false, isClientMsg: true })
       this.socket.send(JSON.stringify(message))
       this.userInputTextarea = ''
     }
