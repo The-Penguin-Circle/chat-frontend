@@ -1,56 +1,72 @@
 <template>
   <div class="containerbg w-full min-h-screen h-full">
-    <div class="pt-4 pr-2 text-right">
-      <div class="border border-whhgrey inline rounded p-2 text-whhgrey">
-        Login
+    <div v-if="!showProfile" >
+      <div class="pt-4 pr-2 text-right">
+        <div class="border border-whhgrey inline rounded p-2 text-whhgrey">
+          Login
+        </div>
+      </div>
+
+      <div class="text-left flex sm:ml-20 lg:ml-64 mx-6 mt-6 mb-4">
+        <div class="border-4 flex-left flex-shrink-0 border-white bg-whhpurple font-bold p-2 text-2xl text-white text-center inline-block w-12 h-12 leading-6 rounded-full">
+          ?</div>
+        <div class="text-xl text-white ml-2 mt-3 leading-tight">
+          {{ selectedQuestion.text }}
+        </div>
+
+      </div>
+
+      <hr class="border-white mx-4 sm:mx-20 lg:mx-64" />
+
+      <ul v-if="storedChatMessages.length > 0">
+        <li v-for="message in storedChatMessages" class="float-right">
+          <div v-if="message.isFirstResponse || message.isFirstUserResponse">
+            <img
+              class="w-12 bg-white rounded-full m-2"
+              @click="navToProfile(message.isClientMsg)"
+              :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+            >
+            <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
+            <div>{{ message.message }}</div>
+          </div>
+        </li>
+      </ul>
+
+      <ul v-if="storedChatMessages.length > 0">
+        <li v-for="message in storedChatMessages" class="float-right">
+          <div v-if="!message.isFirstResponse && !message.isFirstUserResponse">
+            <img
+              class="w-12 bg-white rounded-full m-2"
+              @click="navToProfile(message.isClientMsg)"
+              :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
+            >
+            <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
+            <div>{{ message.message }}</div>
+          </div>
+        </li>
+      </ul>
+
+      <div v-if="!waitingForMatch">Wartetext</div>
+
+      <div class="w-full fixed bottom-0 right-0 p-2">
+        <textarea 
+          v-model="userInputTextarea"
+          @keyup.enter="send"
+          style="resize: none"
+          class="h-auto p-4 rounded w-full bg-white text-whhgreen"
+        ></textarea>
       </div>
     </div>
 
-    <div class="text-left flex sm:ml-20 lg:ml-64 mx-6 mt-6 mb-4">
-      <div class="border-4 flex-left flex-shrink-0 border-white bg-whhpurple font-bold p-2 text-2xl text-white text-center inline-block w-12 h-12 leading-6 rounded-full">
-        ?</div>
-      <div class="text-xl text-white ml-2 mt-3 leading-tight">
-        {{ selectedQuestion.text }}
-      </div>
-    </div>
-
-    <hr class="border-white mx-4 sm:mx-20 lg:mx-64" />
-
-    <ul v-if="storedChatMessages.length > 0">
-      <li v-for="message in storedChatMessages" class="float-right">
-        <div v-if="message.isFirstResponse || message.isFirstUserResponse">
-          <img
-            class="w-12 bg-white rounded-full m-2"
-            :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
-          >
-          <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
-          <div>{{ message.message }}</div>
-        </div>
-      </li>
-    </ul>
-
-    <ul v-if="storedChatMessages.length > 0">
-      <li v-for="message in storedChatMessages" class="float-right">
-        <div v-if="!message.isFirstResponse && !message.isFirstUserResponse">
-          <img
-            class="w-12 bg-white rounded-full m-2"
-            :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"
-          >
-          <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
-          <div>{{ message.message }}</div>
-        </div>
-      </li>
-    </ul>
-
-    <div v-if="!waitingForMatch">Wartetext</div>
-
-    <div class="w-full fixed bottom-0 right-0 p-2">
-      <textarea 
-        v-model="userInputTextarea"
-        @keyup.enter="send"
-        style="resize: none"
-        class="h-auto p-4 rounded w-full bg-white text-whhgreen"
-      ></textarea>
+    <!-- <profile /> -->
+    <div v-if="showProfile">
+      <h2 class="title">Dein Profil</h2>
+      <img :src="currentUser.picString">
+      <h3 class="subtitle">
+        {{ currentUser.name }}
+      </h3>
+      <button @click="getNewProfile">Neues Profil generieren</button>
+      <button @click="navToChat">Fertig</button>
     </div>
   </div>
 </template>
@@ -69,9 +85,13 @@ export default {
       userInputTextarea: '',
       chatMessages: [{ message: '', isFirstResponse: false }],
       identifier: 'zbxgxDbAHu',
-      selectedQuestion: ''
+      selectedQuestion: '',
+      showProfile: false
     }
   },
+  // components: {
+  //   profile
+  // },
   computed: {
     storedChatMessages () {
       return this.$store.state.chat.messages
@@ -107,6 +127,15 @@ export default {
     }
   },
   methods: {
+    navToProfile (isClientMsg) {
+      this.showProfile = isClientMsg
+    },
+    navToChat () {
+      this.showProfile = false
+    },
+    getNewProfile () {
+      this.socket.send(JSON.stringify({type:"get-username",generateNew:true, identifier:this.$store.state.chat.identifier}))
+    },
     handleChatFound (_this, data) {
       _this.waitingForMatch = true
       // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
