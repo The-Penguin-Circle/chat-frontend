@@ -6,9 +6,19 @@
       <div> {{ selectedQuestion.text }} </div>
         <ul>
           <li v-for="item in chatMessages">
-            <div>{{ item.isClientMsg ? currentUser.picString : remotePartner.picString }}</div>
-            <div>{{ item.isClientMsg ? currentUser.name : remotePartner.name }}</div>
+            <!-- <div>{{ item.isClientMsg ? currentUser.picString : remotePartner.picString }}</div>
+            <div>{{ item.isClientMsg ? currentUser.name : remotePartner.name }}</div> -->
+            <div><img :src="remotePartner.picString"></div>
+            <div>{{ remotePartner.name }}</div>
             <div>{{ item.message }}</div>
+          </li>
+        </ul>
+        <h1>CHAT MESSAGES</h1>
+        <ul v-if="storedChatMessages.length > 0">
+          <li v-for="message in storedChatMessages">
+            <div><img :src="remotePartner.picString"></div>
+            <div>{{ remotePartner.name }}</div>
+            <div>{{ message.message }}</div>
           </li>
         </ul>
         <textarea v-if="waitingForMatch"
@@ -33,6 +43,11 @@ export default {
       chatMessages: [{ message: '', isFirstResponse: false }],
       identifier: 'zbxgxDbAHu',
       selectedQuestion: ''
+    }
+  },
+  computed: {
+    storedChatMessages () {
+      return this.$store.state.chat.messages
     }
   },
   mounted () {
@@ -66,16 +81,13 @@ export default {
   },
   methods: {
     handleChatFound (_this, data) {
-        _this.waitingForMatch = true
-        // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
-        // save partner profile
-        _this.remotePartner.picString = data.data.otherUser.image
-        _this.remotePartner.name = data.data.otherUser.username
+      _this.waitingForMatch = true
+      // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
+      _this.remotePartner.picString = `data:image/jpeg;base64,${data.data.otherUser.image}`
+      _this.remotePartner.name = data.data.otherUser.username
+      _this.$store.commit('chat/set', { prop: 'remotePartner', value: _this.remotePartner })
 
-        // parse it to the store
-        this.$store.commit('chat/set', { prop: 'remotePartner', value: _this.remotePartner })
-        _this.chatMessages.push({message: data.data.otherResponse,isFirstResponse: true})
-
+      _this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
     },
     handleMatchMe (_this, data) {
       // save own profile created by the server

@@ -4,7 +4,6 @@
       <div> <nuxt-link to="/login">Login</nuxt-link></div>
       <img :src="picString">
       <h2 class="title">
-
       </h2>
       <h3 class="subtitle">
         {{ name }}

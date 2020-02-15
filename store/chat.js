@@ -1,5 +1,6 @@
 export const state = () => ({
-    chat: {}
+    chat: {},
+    messages: {}
 })
 export const mutations = {
     add (state, text) {
@@ -19,5 +20,8 @@ export const mutations = {
     },
     toggle (state, todo) {
         todo.done = !todo.done
+    },
+    addChatMessage (state, message) {
+        state.messages.push(message)
     }
 }
