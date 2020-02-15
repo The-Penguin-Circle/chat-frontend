@@ -8,7 +8,7 @@
         <ul v-if="storedChatMessages.length > 0">
           <li v-for="message in storedChatMessages">
 
-            <div @click="navToProfile"><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
+            <div @click="navToProfile(message.isClientMsg)"><img :src="message.isClientMsg ? currentUser.picString : remotePartner.picString"></div>
             <div>{{ message.isClientMsg ? currentUser.name : remotePartner.name }}</div>
             <div>{{ message.message }}</div>
           </li>
@@ -96,8 +96,8 @@ export default {
     }
   },
   methods: {
-    navToProfile () {
-      this.showProfile = true
+    navToProfile (isClientMsg) {
+      this.showProfile = isClientMsg
     },
     navToChat () {
       this.showProfile = false
