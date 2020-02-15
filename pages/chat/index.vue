@@ -61,7 +61,7 @@
       </ul>
 
       <div class="w-full fixed bottom-0 right-0 p-2 sm:px-20 lg:px-64">
-        <textarea 
+        <textarea
           v-model="userInputTextarea"
           v-if="waitingForMatch"
           @keyup.enter="send"
@@ -105,34 +105,44 @@ export default {
       return this.$store.state.chat.messages;
     }
   },
-  mounted() {
-    const _this = this;
-    this.selectedQuestion = this.$store.state.chat.selectedQuestion;
-    this.setupSocketConnection();
-    //this.pushInitialAnswerToChat()
-    this.socket.onmessage = event => {
-      try {
-        const data = JSON.parse(event.data);
-        switch (data.type) {
-          case "chat-found":
-            _this.handleChatFound(_this, data);
-            break;
-          case "match-me":
-            _this.handleMatchMe(_this, data);
-            break;
-          case "get-username":
-            _this.handleGetUserName(_this, data);
-            break;
-          case "chat-message":
-            _this.handleChatMessage(_this, data);
-            break;
-          default:
-            console.log("Unknown message type");
+  mounted () {
+    const _this = this
+
+    if(!this.$store.state.chat.hasOwnProperty("selectedQuestion")){// && !(this.$store.state.chat.selectedQuestion == "" || this.$store.state.chat.selectedQuestion === undefined) ){
+      //console.log(this.$store.state.chat.selectedQuestion);
+
+      return this.$router.push("/")
+    } else {
+      this.selectedQuestion = this.$store.state.chat.selectedQuestion
+      this.setupSocketConnection()
+      //this.pushInitialAnswerToChat()
+      this.socket.onmessage = (event) => {
+        try {
+          //console.log(event.data);
+          const data = JSON.parse(event.data)
+          switch (data.type) {
+            case 'chat-found':
+              _this.handleChatFound(_this, data)
+              break
+            case 'match-me':
+              _this.handleMatchMe(_this, data)
+              break
+            case 'get-username':
+              _this.handleGetUserName(_this, data)
+              break
+            case 'chat-message':
+              _this.handleChatMessage(_this, data)
+              break
+            default:
+              console.log('Unknown message type')
+          }
+        } catch (error) {
+          console.log(error)
         }
-      } catch (error) {
-        console.log(error);
       }
-    };
+    }
+
+
   },
   methods: {
     navToProfile(isClientMsg) {
@@ -174,7 +184,6 @@ export default {
       _this.currentUser.name = data.data.username;
       _this.currentUser.picString = "data:image/jpeg;base64," + data.data.image;
       _this.identifier = data.data.identifier;
-      console.log(data.data.identifier);
       // parse id to the Store, for use in the profile screen and to check if the current page has to create a new entity if the identifier is empty
       _this.$store.commit("chat/set", {
         prop: "identifier",
