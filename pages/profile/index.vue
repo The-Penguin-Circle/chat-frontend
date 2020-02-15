@@ -10,7 +10,7 @@
         {{ name }}
       </h3>
       <div>
-        <button @click="getProfileName">Neues Profil generieren</button>
+        <button @click="getNewProfileName">Neues Profil generieren</button>
       </div>
     </div>
   </div>
@@ -22,52 +22,34 @@ export default {
   data: () => {
     return {
       picString: "",
-      name: "Thomas",
+      name: "",
       socket: null
     }
   },
-  // components: {
-  //
-  // },
    methods: {
-
-    getProfileName () {
-      // link
-      // websocket req
-
-
-      var matchMe = {type:"match-me", questionID:1, answer:"Test"};
-      // json parse
-      this.socket.send(JSON.stringify(matchMe))
-
-
-
-
-      //this.name = "Baum"
-      //this.picString = "http://i.ytimg.com/vi/Uk1RPEQI8mI/maxresdefault.jpg"
-      //return
-      // return image string
+    getNewProfile () {
+      //var getUsername = ;
+      this.socket.send(JSON.stringify({type:"get-username",generateNew:true, identifier:this.$store.state.chat.identifier}))
     }
-
   },
   mounted() {
+    
     var _this = this
-    var matchMe = {type:"match-me", questionID:1, answer:"Test"};
     this.socket = new WebSocket('ws://chat.linus.space/websocket');
     this.socket.onopen = function(e) {
 
-      //alert("[open] Connection established")
-      //
-      console.log(JSON.stringify(matchMe));
-      _this.socket.send(JSON.stringify(matchMe))
+
+
+      _this.socket.send(JSON.stringify({type:"get-username", generateNew:false, identifier:this.$store.state.chat.identifier}))
     }
+
     this.socket.onmessage = function(event) {
-        //alert(`[message] Data received from server: ${event.data}`);
         var data = JSON.parse(event.data)
-        _this.name = data.username
-        _this.picString = "data:image/jpeg;base64," + data.image
-        console.log(data.identifier + ", " + data.username)
-    } ;
+        if (data.data.type == "get-username") {
+          _this.name = data.data.username
+          _this.picString = "data:image/jpeg;base64," + data.data.image
+        }
+    };
   },
   created() {
 

@@ -11,10 +11,10 @@
             <div>{{ item.message }}</div>
           </li>
         </ul>
-        <textarea v-if="!waitingForMatch"
+        <textarea v-if="waitingForMatch"
                   v-model="userInputTextarea"
                   @keyup.enter="send"></textarea>
-        <div v-if="waitingForMatch">Wartetext</div>
+        <div v-if="!waitingForMatch">Wartetext</div>
         <button @click="send">Senden</button>
       </div>
     </div>
@@ -77,6 +77,7 @@ export default {
       _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
     },
     handleChatMessage (_this, data) {
+      debugger
       _this.chatMessages.push({ message: data.data.message, isFirstResponse: false })
     },
     setupSocketConnection () {
