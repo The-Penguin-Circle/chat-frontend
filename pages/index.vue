@@ -14,7 +14,7 @@
 
     <nuxt-link
       to="/select-question"
-      class="border border-white rounded p-3 mt-12 text-xl bg-whhpurple text-white hover:text-whhpurple hover:bg-white"
+      class="border border-white rounded no-underline p-3 mt-12 text-xl bg-whhpurple text-white hover:text-whhpurple hover:bg-white"
     >
       Los geht's
     </nuxt-link>
