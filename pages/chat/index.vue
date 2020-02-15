@@ -11,6 +11,14 @@
             <div>{{ item.message }}</div>
           </li>
         </ul>
+        <h1>CHAT MESSAGES</h1>
+        <ul v-if="storedChatMessages.length > 0">
+          <li v-for="message in storedChatMessages">
+            <div><img :src="remotePartner.picString"></div>
+            <div>{{ remotePartner.name }}</div>
+            <div>{{ message.message }}</div>
+          </li>
+        </ul>
         <textarea v-if="waitingForMatch"
                   v-model="userInputTextarea"
                   @keyup.enter="send"></textarea>
@@ -33,6 +41,11 @@ export default {
       chatMessages: [{ message: '', isFirstResponse: false }],
       identifier: 'zbxgxDbAHu',
       selectedQuestion: ''
+    }
+  },
+  computed: {
+    storedChatMessages () {
+      return this.$store.state.chat.messages
     }
   },
   mounted () {
@@ -83,7 +96,7 @@ export default {
     setupSocketConnection () {
       const _this = this
       const matchMe = { type: 'match-me', questionID: this.selectedQuestion.id, answer: this.selectedQuestion.answer }
-      this.socket = new WebSocket('ws://chat.linus.space/websocket')
+      this.socket = new WebSocket('wss://chat.linus.space/websocket')
       this.socket.onopen = function () {
         _this.socket.send(JSON.stringify(matchMe))
       }
