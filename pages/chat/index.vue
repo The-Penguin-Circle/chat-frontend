@@ -124,7 +124,6 @@ export default {
               break
             default:
               console.log('Unknown message type')
-              console.log(event.data)
           }
         } catch (error) {
           console.log(error)
@@ -142,7 +141,6 @@ export default {
       this.showProfile = false;
     },
     getNewProfile() {
-      console.log(this.$store.state.chat.identifier);
       this.socket.send(
         JSON.stringify({
           type: "get-username",
@@ -175,7 +173,6 @@ export default {
       _this.currentUser.name = data.data.username;
       _this.currentUser.picString = "data:image/jpeg;base64," + data.data.image;
       _this.identifier = data.data.identifier;
-      console.log(data.data.identifier);
       // parse id to the Store, for use in the profile screen and to check if the current page has to create a new entity if the identifier is empty
       _this.$store.commit("chat/set", {
         prop: "identifier",
