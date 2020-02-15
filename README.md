@@ -1,5 +1,7 @@
 # chat-frontend
 
+[![Build status](https://img.shields.io/github/workflow/status/The-Penguin-Circle/chat-frontend/CI/master)](https://github.com/The-Penguin-Circle/chat-frontend/actions)
+
 > barrier-free chat application
 
 ## Build Setup
