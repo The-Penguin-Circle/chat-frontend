@@ -49,7 +49,7 @@
       <div v-if="!waitingForMatch">Wartetext</div>
 
       <div class="w-full fixed bottom-0 right-0 p-2">
-        <textarea 
+        <textarea
           v-model="userInputTextarea"
           @keyup.enter="send"
           style="resize: none"
@@ -99,36 +99,41 @@ export default {
   },
   mounted () {
     const _this = this
-    if(this.$store.state.chat.hasOwnProperty("selectedQuestion") && !(this.$store.state.chat.selectedQuestion != "") ){
-      return this.$router.push("/")
-    }
 
-    this.selectedQuestion = this.$store.state.chat.selectedQuestion
-    this.setupSocketConnection()
-    //this.pushInitialAnswerToChat()
-    this.socket.onmessage = (event) => {
-      try {
-        const data = JSON.parse(event.data)
-        switch (data.type) {
-          case 'chat-found':
-            _this.handleChatFound(_this, data)
-            break
-          case 'match-me':
-            _this.handleMatchMe(_this, data)
-            break
-          case 'get-username':
-            _this.handleGetUserName(_this, data)
-            break
-          case 'chat-message':
-            _this.handleChatMessage(_this, data)
-            break
-          default:
-            console.log('Unknown message type')
+    if(!this.$store.state.chat.hasOwnProperty("selectedQuestion")){// && !(this.$store.state.chat.selectedQuestion == "" || this.$store.state.chat.selectedQuestion === undefined) ){
+      console.log(this.$store.state.chat.selectedQuestion);
+
+      return this.$router.push("/")
+    } else {
+      this.selectedQuestion = this.$store.state.chat.selectedQuestion
+      this.setupSocketConnection()
+      //this.pushInitialAnswerToChat()
+      this.socket.onmessage = (event) => {
+        try {
+          const data = JSON.parse(event.data)
+          switch (data.type) {
+            case 'chat-found':
+              _this.handleChatFound(_this, data)
+              break
+            case 'match-me':
+              _this.handleMatchMe(_this, data)
+              break
+            case 'get-username':
+              _this.handleGetUserName(_this, data)
+              break
+            case 'chat-message':
+              _this.handleChatMessage(_this, data)
+              break
+            default:
+              console.log('Unknown message type')
+          }
+        } catch (error) {
+          console.log(error)
         }
-      } catch (error) {
-        console.log(error)
       }
     }
+
+
   },
   methods: {
     navToProfile (isClientMsg) {
@@ -176,11 +181,13 @@ export default {
     // _this.$store.commit('chat/set', { prop: 'identifier', value: _this.identifier })
       this.socket = new WebSocket('wss://chat.linus.space/websocket')
       this.socket.onopen = function () {
+        //
         if (_this.$store.state.chat.hasOwnProperty("identifier") && _this.$store.state.chat.identifier != "") { //identifier =! ""
             _this.socket.send(JSON.stringify({type:"get-username", generateNew:false, identifier:_this.$store.state.chat.identifier}))
             //
         } else {
           // new User
+
           _this.socket.send(JSON.stringify({ type: 'match-me', questionID: _this.selectedQuestion.id, answer: _this.selectedQuestion.answer }))
           _this.pushInitialAnswerToChat()
 
