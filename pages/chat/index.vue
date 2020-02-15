@@ -6,7 +6,7 @@
       <div> {{ selectedQuestion.text }} </div>
         <ul>
           <li v-for="item in chatMessages">
-            <div>{{ remotePartner.picString }}</div>
+            <div><img :src="remotePartner.picString"></div>
             <div>{{ remotePartner.name }}</div>
             <div>{{ item.message }}</div>
           </li>
@@ -64,11 +64,11 @@ export default {
   methods: {
     handleChatFound (_this, data) {
       _this.waitingForMatch = true
-        // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
-        _this.remotePartner.picString = data.data.otherUser.image
-        _this.remotePartner.name = data.data.otherUser.username
+      // {"type":"chat-found","data":{"otherUser":{"identifier":"NjVZvQsQDb","username":"Qusuk Koj","image":""},"otherResponse":"saas"}}
+      _this.remotePartner.picString = `data:image/jpeg;base64,${data.data.otherUser.image}`
+      _this.remotePartner.name = data.data.otherUser.username
 
-        _this.chatMessages.push({message: data.data.otherResponse,isFirstResponse: true})
+      _this.chatMessages.push({message: data.data.otherResponse, isFirstResponse: true })
     },
     handleMatchMe (_this, data) {
       _this.currentUser.name = data.data.username
