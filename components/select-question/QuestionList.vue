@@ -31,13 +31,20 @@ export default {
           id: 1
         },
         { text: "Was ist dein größter Wunsch", id: 2 },
-        { text: "Was war der beste Abend deines Lebens?", id: 3 },
         {
           text:
             "Bist du mit deinen bisherigen Errungenschaften im Leben zufrieden?",
+          id: 3
+        },
+        {
+          text: "Wann fühlst du dich einsam?",
           id: 4
         },
-        { text: "Was macht dich neidisch?", id: 5 }
+        {
+          text:
+            "Wann bist du das letzte Mal in schallendes Gelächter ausgebrochen?",
+          id: 5
+        }
       ];
     }
   },
