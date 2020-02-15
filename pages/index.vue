@@ -1,9 +1,7 @@
 <template>
   <div class="containerbg w-full min-h-screen h-full">
 
-    <div class="text-5xl m-4 mt-0 pt-20 font-sans text-white">
-      Troca
-    </div>
+    <img class="w-1/2 m-4 mt-20 sm:w-1/3 lg:w-1/6 text-center inline" src="troca.png"/><br />
 
     <img class="w-2/5 m-4 sm:w-1/3 lg:w-1/6 text-center inline" src="logo.png"/>
 
@@ -16,7 +14,7 @@
 
     <nuxt-link
       to="/select-question"
-      class="border rounded p-3 mt-12 text-xl text-white hover:text-whhgreen hover:bg-white"
+      class="border border-white rounded p-3 mt-12 text-xl bg-whhpurple text-white hover:text-whhpurple hover:bg-white"
     >
       Los geht's
     </nuxt-link>

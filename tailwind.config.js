@@ -10,6 +10,7 @@ module.exports = {
       colors: {
         whhgreen: '#339933',
         whhgrey: '#D9D9D9',
+        whhpurple: '#993266',
       }
     }
   },

@@ -7,7 +7,7 @@
     </div>
 
     <div class="text-left sm:ml-20 lg:ml-64 mx-6 my-6">
-      <div class="border-4 border-white font-bold p-2 text-2xl text-white text-center inline-block w-12 h-12 leading-6 rounded-full">2</div>
+      <div class="border-4 border-white bg-whhpurple font-bold p-2 text-2xl text-white text-center inline-block w-12 h-12 leading-6 rounded-full">2</div>
       <div class="text-2xl text-white inline ml-2">
         Schreibe deine Antwort
       </div>
@@ -19,14 +19,15 @@
 
     <div class="sm:mx-20 lg:mx-64 mx-2 mt-4">
       <textarea v-model="questionResponse"
-                class="h-64 p-4 w-full"
-                @keyup.enter="answerQuestion">
+                class="h-64 p-4 w-full rounded bg-white text-whhgreen"
+                @keyup.enter="answerQuestion"
+                style="resize: none">
       </textarea>
     </div>
 
     <div class="text-right sm:px-20 lg:px-64 px-2 mt-4">
       <button
-          class="text-white text-lg border rounded border-white p-2 w-20 hover:bg-white hover:text-whhgreen"
+          class="text-white text-lg border rounded border-white bg-whhpurple p-2 w-20 hover:bg-white hover:text-whhpurple"
           @click="answerQuestion"
         >
           Senden
