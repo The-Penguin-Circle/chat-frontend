@@ -131,7 +131,7 @@ export default {
     pushInitialAnswerToChat () {
       // push client/current User answer to the chat list
       //this.chatMessages.push({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
-      this.pushMessageToChat({ message: this.selectedQuestion.answer, isFirstUserResponse: true })
+      this.pushMessageToChat({ message: this.selectedQuestion.answer, isFirstUserResponse: true, isClientMsg: true })
       //this.$store.commit('chat/set', { prop: 'chatMessages', value: this.chatMessages })
 
     },
