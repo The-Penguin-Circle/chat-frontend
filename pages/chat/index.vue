@@ -50,6 +50,7 @@
       <div class="w-full fixed bottom-0 right-0 p-2 sm:px-20 lg:px-64">
         <textarea
           v-model="userInputTextarea"
+          v-if="waitingForMatch"
           @keyup.enter="send"
           style="resize: none"
           class="h-auto p-4 rounded w-full bg-white text-whhgreen"
@@ -97,7 +98,7 @@ export default {
     const _this = this
 
     if(!this.$store.state.chat.hasOwnProperty("selectedQuestion")){// && !(this.$store.state.chat.selectedQuestion == "" || this.$store.state.chat.selectedQuestion === undefined) ){
-      console.log(this.$store.state.chat.selectedQuestion);
+      //console.log(this.$store.state.chat.selectedQuestion);
 
       return this.$router.push("/")
     } else {
@@ -106,6 +107,7 @@ export default {
       //this.pushInitialAnswerToChat()
       this.socket.onmessage = (event) => {
         try {
+          //console.log(event.data);
           const data = JSON.parse(event.data)
           switch (data.type) {
             case 'chat-found':
@@ -122,6 +124,7 @@ export default {
               break
             default:
               console.log('Unknown message type')
+              console.log(event.data)
           }
         } catch (error) {
           console.log(error)
@@ -139,6 +142,7 @@ export default {
       this.showProfile = false;
     },
     getNewProfile() {
+      console.log(this.$store.state.chat.identifier);
       this.socket.send(
         JSON.stringify({
           type: "get-username",
