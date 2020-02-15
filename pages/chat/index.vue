@@ -14,7 +14,7 @@
 
       <hr class="border-white mx-4 mt-4 sm:mx-20 lg:mx-64" />
 
-      <div class="absolute w-full overflow-scroll pt-4" style="max-height: calc(100vh - 12rem)">
+      <div class="absolute w-full overflow-y-auto overflow-x-hidden pt-4" style="max-height: calc(100vh - 12rem)">
 
         <div v-if="storedChatMessages.length > 0" class="flex items-start flex-row-reverse sm:mx-20 lg:mx-64 mx-4">
           <div
